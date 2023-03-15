@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>User Editor</title>
+</head>
+<body>
+<h1>User Editor</h1>
+<form action="#" th:action="@{/admin/editUser}"  th:object="${user}"  method="post" >
+  <div style="display: none">
+    <input type="text" id="id" name="id" th:value="${user.id}">
+  </div>
+  <div>
+    <label for="username">First Name:</label>
+    <input type="text" id="username" name="username" th:value="${user.userName}">
+  </div>
+  <div>
+    <label for="password">Last Name:</label>
+    <input type="text" id="password" name="password" th:value="${user.password}">
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="eMail" th:value="${user.getEMail()}">
+  </div>
+  <div>
+    <label for="roles">role:</label>
+    <select multiple="multiple" type="select" id="roles" name="roles" style="width: 100px">
+      <option th:each="role : ${roles}" th:value="${role.id}" th:utext="${role.name}"></option>
+    </select>
+  </div>
+  <div>
+    <input type="submit" value="Save">
+  </div>
+</form>
+</body>
+</html>
