@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -16,11 +17,13 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public List<Role> getRoles(){
+    @Transactional
+    public List<Role> getRoles() {
         return roleRepository.findAll();
     }
 
-    public Role getRoleById(long id){
+    @Transactional
+    public Role getRoleById(long id) {
         return roleRepository.getById(id);
     }
 }
