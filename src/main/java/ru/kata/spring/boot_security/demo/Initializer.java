@@ -21,17 +21,15 @@ public class Initializer {
 
     @PostConstruct
     public void init() {
-        User user = userService.getByUserName("admin");
+        User user = userService.getByeMail("admin@mail.ru");
         if (user == null) {
-            User admin = new User("admin@mail.ru", "admin", "admin");
+            User admin = new User("admin@mail.ru", "admin", "admin", "admin", 30);
             Role userRole = new Role("ROLE_USER");
             Role adminRole = new Role("ROLE_ADMIN");
-
             Set<Role> adminRoles = new HashSet<>();
             adminRoles.add(userRole);
             adminRoles.add(adminRole);
             admin.setRoles(adminRoles);
-
             userService.addUser(admin);
         }
     }

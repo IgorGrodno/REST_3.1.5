@@ -16,8 +16,12 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "username")
-    private String userName;
+    @Column(name = "firstname")
+    private String firstName;
+    @Column(name = "lastname")
+    private String lastName;
+    @Column(name = "age")
+    private int age;
     @Column(name = "password")
     private String password;
     @Column(name = "email")
@@ -45,24 +49,23 @@ public class User implements UserDetails {
         return (Collection<? extends GrantedAuthority>) roles;
     }
 
-    public User(String eMail, String password, String userName) {
+    @Override
+    public String getUsername() {
+        return eMail;
+    }
+
+    public User(String eMail, String password, String firstName,String lastName,int age) {
         this.eMail = eMail;
         this.password = password;
-        this.userName = userName;
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.age=age;
         this.isAccountNonLocked=true;
         this.isAccountNonExpired=true;
         this.isEnabled=true;
         this.isCredentialsNonExpired=true;
     }
 
-    @Override
-    public String getUsername() {
-        return userName;
-    }
-
-    public void setUsername(String username) {
-        this.userName = username;
-    }
 
     @Override
     public boolean isAccountNonExpired() {

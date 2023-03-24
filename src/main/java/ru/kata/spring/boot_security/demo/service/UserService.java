@@ -33,8 +33,8 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     @ReadOnlyProperty
-    public User getByUserName(String userName) {
-        return userRepository.getByUserName(userName);
+    public User getByeMail(String userName) {
+        return userRepository.getByeMail(userName);
     }
     @Transactional
     @ReadOnlyProperty
@@ -52,7 +52,7 @@ public class UserService implements UserDetailsService {
     }
     @Transactional
     public void addUser(User user) {
-        User newUser = new User(user.getEMail(), user.getPassword(),user.getUsername());
+        User newUser = new User(user.getEMail(), user.getPassword(),user.getFirstName(),user.getLastName(), user.getAge());
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         newUser.setRoles(user.getRoles());
         userRepository.save(newUser);
@@ -61,21 +61,23 @@ public class UserService implements UserDetailsService {
     public void editUser(User user) {
         User userToEdit = getById(user.getId());
         userToEdit.setEMail(user.getEMail());
-        if (!passwordEncoder.encode(user.getPassword()).equals(userToEdit.getPassword())) {
+        userToEdit.setAge(user.getAge());
+        userToEdit.setLastName(user.getLastName());
+        userToEdit.setFirstName(user.getFirstName());
+        if (!(passwordEncoder.encode(user.getPassword()).equals(userToEdit.getPassword()))||(user.getPassword().length()>0)) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userToEdit.setRoles(user.getRoles());
-        userToEdit.setUsername(user.getUsername());
         userRepository.save(userToEdit);
     }
 
     @Override
     @Transactional
     @ReadOnlyProperty
-    public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = getByUserName(username);
+    public User loadUserByUsername(String usereMail) throws UsernameNotFoundException {
+        User user = getByeMail(usereMail);
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
+            throw new UsernameNotFoundException(String.format("User '%s' not found", usereMail));
         }
         return user;
     }
