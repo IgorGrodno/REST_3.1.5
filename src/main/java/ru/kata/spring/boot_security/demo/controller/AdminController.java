@@ -1,14 +1,24 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.awt.*;
+import java.lang.reflect.Array;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -25,7 +35,7 @@ public class AdminController {
     @GetMapping("/users")
     public String adminPage(@ModelAttribute("user") User user, Model model, Principal principal) {
         User curentUser = userService.getByeMail(principal.getName());
-        model.addAttribute("curentUser",curentUser);
+        model.addAttribute("curentUser", curentUser);
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("roles", roleService.getRoles());
         return "users";
@@ -37,6 +47,7 @@ public class AdminController {
         user.addAttribute("user", userService.getById(id));
         return "editUser";
     }
+
     @GetMapping("/editUser")
     public String patchAdminRedactor(@ModelAttribute("user") User user) {
         userService.editUser(user);
@@ -60,4 +71,7 @@ public class AdminController {
         userService.addUser(user);
         return "redirect:users";
     }
+
+
 }
+
